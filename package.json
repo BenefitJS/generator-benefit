@@ -1,0 +1,45 @@
+{
+  "name": "generator-benefit",
+  "version": "1.0.0",
+  "description": "yeoman generator koa joi swagger ",
+  "homepage": "https://github.com/BenefitJS/generator-benefit",
+  "author": {
+    "name": "AlfieriChou",
+    "email": "alfierichou@gmail.com",
+    "url": "https://github.com/AlfieriChou"
+  },
+  "files": [
+    "generators"
+  ],
+  "main": "generators/index.js",
+  "keywords": [
+    "yeoman generator koa joi swagger",
+    "yeoman-generator"
+  ],
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "mocha": "^5.2.0",
+    "nsp": "^2.8.0",
+    "prettier": "^1.11.1",
+    "standard": "^11.0.1",
+    "yeoman-assert": "^3.1.0",
+    "yeoman-test": "^1.7.0"
+  },
+  "engines": {
+    "npm": ">= 4.0.0"
+  },
+  "dependencies": {
+    "cowsay": "^1.3.1",
+    "yeoman-generator": "^2.0.1"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "scripts": {
+    "prepublishOnly": "nsp check",
+    "lint": "standard --fix",
+    "test": "mocha --exit"
+  },
+  "repository": "AlfieriChou/generator-koa-joi-swagger",
+  "license": "MIT"
+}
