@@ -1,5 +1,5 @@
-# generator-benefit [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> yeoman generator koa joi swagger 
+# generator-benefit [![NPM version][npm-image]][npm-url] [![Dependency Status][daviddm-image]][daviddm-url]
+> yeoman generator benefit
 
 ## Installation
 
@@ -73,7 +73,5 @@ MIT © [AlfieriChou](https://github.com/AlfieriChou)
 
 [npm-image]: https://badge.fury.io/js/generator-benefit.svg
 [npm-url]: https://npmjs.org/package/generator-benefit
-[travis-image]: https://travis-ci.org/BenefitJS/generator-benefit.svg?branch=master
-[travis-url]: https://travis-ci.org/BenefitJS/generator-benefit
 [daviddm-image]: https://david-dm.org/BenefitJS/generator-benefit.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/BenefitJS/generator-benefit
