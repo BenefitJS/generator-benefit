@@ -9,8 +9,16 @@ const views = require('koa-views')
 const path = require('path')
 const config = require('./config')
 const appModule = require('./app')
+const dir = require('dir_filenames')
 
 const app = new Koa()
+
+const keys = Object.keys(appModule.context)
+keys.map(key => {
+  Object.defineProperty(app.context, key, appModule.context[key])
+})
+const services = dir(`${config.appRoot}/app/services`)
+const models = dir(`${config.appRoot}/app/models`)
 
 app.use(async (ctx, next) => {
   if (ctx.request.method === 'OPTIONS') {
@@ -21,6 +29,16 @@ app.use(async (ctx, next) => {
   ctx.set('Access-Control-Max-Age', 86400000)
   ctx.set('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, POST, DELETE')
   ctx.set('Access-Control-Allow-Headers', 'x-requested-with, accept, origin, content-type')
+  ctx.service = {}
+  services.map(file => {
+    let name = file.split('/').pop().replace(/\.\w+$/, '')
+    ctx.service[name] = require(file)
+  })
+  ctx.model = {}
+  models.map(file => {
+    let name = file.split('/').pop().replace(/\.\w+$/, '')
+    ctx.model[name] = require(file)
+  })
   try {
     await next()
   } catch (err) {
@@ -31,11 +49,6 @@ app.use(async (ctx, next) => {
       stack: err.stack
     }
   }
-})
-
-const keys = Object.keys(appModule.context)
-keys.map(key => {
-  Object.defineProperty(app.context, key, appModule.context[key])
 })
 
 app

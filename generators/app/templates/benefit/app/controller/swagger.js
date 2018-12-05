@@ -24,5 +24,4 @@ class SwaggerController {
   }
 }
 
-const swaggerdoc = new SwaggerController()
-module.exports = swaggerdoc
+module.exports = new SwaggerController()

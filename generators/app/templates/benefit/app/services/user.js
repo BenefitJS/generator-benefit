@@ -21,5 +21,4 @@ class UserService {
   }
 }
 
-const user = new UserService()
-module.exports = user
+module.exports = new UserService()

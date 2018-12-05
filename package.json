@@ -1,6 +1,6 @@
 {
   "name": "generator-benefit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "yeoman generator koa joi swagger ",
   "homepage": "https://github.com/BenefitJS/generator-benefit",
   "author": {
