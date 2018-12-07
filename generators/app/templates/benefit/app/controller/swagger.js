@@ -20,7 +20,7 @@ class SwaggerController {
     )
   }
   async index (ctx) {
-    await ctx.render('index.html', {url: '/v1/swagger.json'})
+    await ctx.render('index.html', { url: '/v1/swagger.json' })
   }
 }
 

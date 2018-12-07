@@ -8,9 +8,24 @@ const files = [
   {
     name: 'router',
     path: `${appRoot}/app/routes/index.js`
+  },
+  {
+    name: 'service',
+    path: `${appRoot}/app/common/helper.js`,
+    module: 'service'
+  },
+  {
+    name: 'model',
+    path: `${appRoot}/app/common/helper.js`,
+    module: 'model'
+  },
+  {
+    name: 'controller',
+    path: `${appRoot}/app/common/helper.js`,
+    module: 'controller'
   }
 ]
 
 files.map(file => {
-  exports[file.name] = require(file.path)
+  exports[file.name] = file.module ? require(file.path)[file.module] : require(file.path)
 })

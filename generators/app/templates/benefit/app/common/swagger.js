@@ -4,6 +4,59 @@ const _ = require('lodash')
 const appRoot = require('../../config').appRoot
 const dir = require('dir_filenames')
 
+const swaggerPath = (item) => {
+  const content = {
+    tags: item.tags,
+    summary: item.summary
+  }
+  if (item.query) {
+    content.parameters = []
+    const jsonSchema = convert(Joi.object().keys(item.query))
+    for (let prop in item.query) {
+      let field = {}
+      field.name = prop
+      field.in = 'query'
+      field.description = jsonSchema.properties[prop].description
+      field.schema = {
+        'type': jsonSchema.properties[prop].type
+      }
+      field.required = false
+      content.parameters.push(field)
+    }
+  }
+  if (item.requestBody) {
+    let params = convert(Joi.object().keys(item.requestBody.body))
+    let bodySchema = {}
+    bodySchema.required = true
+    bodySchema.content = {
+      'application/json': {
+        'schema': {
+          'type': params.type,
+          'properties': params.properties,
+          'required': item.requestBody.required
+        }
+      }
+    }
+    content.requestBody = bodySchema
+  }
+  if (item.params) {
+    content.parameters = []
+    const jsonSchema = convert(Joi.object().keys(item.params))
+    for (let prop in item.params) {
+      let field = {}
+      field.name = prop
+      field.in = 'path'
+      field.description = jsonSchema.properties[prop].description
+      field.schema = {
+        'type': jsonSchema.properties[prop].type
+      }
+      field.required = true
+      content.parameters.push(field)
+    }
+  }
+  return content
+}
+
 const generateSwagger = (info) => {
   const items = dir(`${appRoot}/app/models`)
   let methods = []
@@ -23,78 +76,7 @@ const generateSwagger = (info) => {
         }
         components.schemas = _.merge(components.schemas, schema)
       } else {
-        const content = {
-          tags: model[index].tags,
-          summary: model[index].summary,
-          description: model[index].description
-        }
-
-        // content.parameters = []
-        if (model[index].query) {
-          content.parameters = []
-          let params = convert(Joi.object(model[index].query))
-          for (let prop in params.properties) {
-            let field = {}
-            field.name = prop
-            field.in = 'query'
-            field.description = params.properties[prop].description
-            field.schema = {
-              'type': params.properties[prop].type
-            }
-            field.required = false
-            content.parameters.push(field)
-          }
-        }
-
-        if (model[index].params) {
-          content.parameters = []
-          let params = convert(Joi.object(model[index].params))
-          for (let prop in params.properties) {
-            let field = {}
-            field.name = prop
-            field.in = 'path'
-            field.description = params.properties[prop].description
-            field.schema = {
-              'type': params.properties[prop].type
-            }
-            field.required = true
-            content.parameters.push(field)
-          }
-        }
-
-        // if (model[index].header) {
-        //   let params = convert(Joi.object(model[index].header))
-        //   for (let prop in params.properties) {
-        //     let field = {}
-        //     field.name = prop
-        //     field.in = 'header'
-        //     field.description = params.properties[prop].description
-        //     field.items = {
-        //       'type': params.properties[prop].type
-        //     }
-        //     field.required = true
-        //     parameters[prop] = field
-        //     content.parameters.push({'$ref': `#/parameters/${prop}`})
-        //   }
-        // }
-
-        if (model[index].requestBody) {
-          let params = convert(Joi.object(model[index].requestBody.body))
-          let request = {}
-          request.requestBody = {}
-          let bodySchema = request.requestBody
-          bodySchema.required = true
-          bodySchema.content = {
-            'application/json': {
-              'schema': {
-                'type': params.type,
-                'properties': params.properties,
-                'required': model[index].requestBody.required
-              }
-            }
-          }
-          content.requestBody = request.requestBody
-        }
+        const content = swaggerPath(model[index])
 
         if (model[index].output) {
           const response = model[index].output
@@ -122,7 +104,7 @@ const generateSwagger = (info) => {
               'description': 'response success',
               'content': {
                 'application/json': {
-                  'schema': {$ref: `#/components/schemas/${schemaName}`}
+                  'schema': { $ref: `#/components/schemas/${schemaName}` }
                 }
               }
             }

@@ -1,3 +1,10 @@
+### Dec 7, 2018
+
+  * release v1.0.2
+    * rewrite swagger parser and add secret to config
+    * add service model and config to helper
+    * add base_service
+
 ### Dec 5, 2018
     
   * release v1.0.1

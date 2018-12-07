@@ -1,12 +1,5 @@
 const KoaRouter = require('koa-router')
-const dir = require('dir_filenames')
-const config = require('../../config')
-const controllers = dir(`${config.appRoot}/app/controller`)
-const controller = {}
-controllers.map(file => {
-  let name = file.split('/').pop().replace(/\.\w+$/, '')
-  controller[name] = require(file)
-})
+const { controller } = require('../common/helper')
 const api = KoaRouter()
 
 api.prefix('/v1')
