@@ -1,5 +1,12 @@
 ### Dec 7, 2018
 
+  * release v1.0.3
+    * winston logger
+    * base service error handle
+    * add coverage to travis
+
+### Dec 7, 2018
+
   * release v1.0.2
     * rewrite swagger parser and add secret to config
     * add service model and config to helper
